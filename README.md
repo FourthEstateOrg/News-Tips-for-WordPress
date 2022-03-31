@@ -1,0 +1,1 @@
+# news-tip-plugin
