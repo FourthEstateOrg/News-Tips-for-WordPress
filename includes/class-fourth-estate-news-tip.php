@@ -1,5 +1,7 @@
 <?php
 
+use News_Tip\Admin\Fourth_Estate_News_Tip_Admin;
+
 /**
  * The file that defines the core plugin class
  *
@@ -104,6 +106,17 @@ class Fourth_Estate_News_Tip {
 		 * core plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-fourth-estate-news-tip-loader.php';
+
+		/**
+		 * Loading plugin helper classes
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/classes/settings/class-section.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/classes/settings/fields/interface-field-markup.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/classes/settings/fields/abstract-field.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/classes/settings/fields/class-text-field.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/classes/settings/fields/class-wysiwyg-field.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/classes/settings/fields/class-select-field.php';
+		
 
 		/**
 		 * The class responsible for defining internationalization functionality

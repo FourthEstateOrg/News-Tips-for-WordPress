@@ -1,5 +1,12 @@
 <?php
 
+namespace News_Tip\Admin;
+
+use News_Tip\Settings\Fields\Text_Field;
+use News_Tip\Settings\Fields\Select_Field;
+use News_Tip\Settings\Fields\WYSIWYG_Field;
+use News_Tip\Settings\Section;
+
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -138,6 +145,8 @@ class Fourth_Estate_News_Tip_Admin {
 	 */
 	public function register_settings() {
 
+		$setting_id = $this->plugin_name . '-settings';
+
 		// Here we are going to register our setting.
 		register_setting(
 			$this->plugin_name . '-settings',
@@ -145,85 +154,58 @@ class Fourth_Estate_News_Tip_Admin {
 			array( $this, 'sandbox_register_setting' )
 		);
 
-		// Here we are going to add a section for our setting.
-		add_settings_section(
-			$this->plugin_name . '-settings-section',
-			__( 'General Settings', 'fourth-estate-news-tip' ),
-			array( $this, 'sandbox_add_settings_section' ),
-			$this->plugin_name . '-settings'
-		);
-
-		// Here we are going to add fields to our section.
-		add_settings_field(
-			'email',
-			__( 'Email', 'fourth-estate-news-tip' ),
-			array( $this, 'sandbox_add_settings_field_input_text' ),
-			$this->plugin_name . '-settings',
-			$this->plugin_name . '-settings-section',
-			array(
-				'label_for' => 'email',
-				'description' => __( '(Optional) The email who will receive notifications whenever a tip was sent. If empty, defaults to admin email.', 'fourth-estate-news-tip' )
-			)
-		);
-
-		// Here we are going to add a section for our setting.
-		add_settings_section(
-			$this->plugin_name . '-settings-section-button',
-			__( 'Button', 'fourth-estate-news-tip' ),
-			array( $this, 'sandbox_add_settings_section' ),
-			$this->plugin_name . '-settings'
-		);
-
-		// Here we are going to add fields to our section.
-		add_settings_field(
-			'label',
-			__( 'Label', 'fourth-estate-news-tip' ),
-			array( $this, 'sandbox_add_settings_field_input_text' ),
-			$this->plugin_name . '-settings',
-			$this->plugin_name . '-settings-section-button',
-			array(
-				'label_for' => 'label',
-				'description' => __( 'Label of the button', 'fourth-estate-news-tip' )
-			)
-		);
-
-		// Here we are going to add a section for our setting.
-		add_settings_section(
-			$this->plugin_name . '-settings-section-form',
-			__( 'Form', 'fourth-estate-news-tip' ),
-			array( $this, 'sandbox_add_settings_section' ),
-			$this->plugin_name . '-settings'
-		);
-
-		// Here we are going to add fields to our section.
-		add_settings_field(
-			'instructions',
-			__( 'Instructions', 'fourth-estate-news-tip' ),
-			array( $this, 'sandbox_add_settings_field_editor' ),
-			$this->plugin_name . '-settings',
-			$this->plugin_name . '-settings-section-form',
-			array(
-				'label_for' => 'instructions',
-				'description' => __( 'Label of the button', 'fourth-estate-news-tip' )
-			)
-
-		);
-		// Here we are going to add fields to our section.
-		add_settings_field(
-			'instructions_position',
-			__( 'Instructions Position', 'fourth-estate-news-tip' ),
-			array( $this, 'sandbox_add_settings_field_radio' ),
-			$this->plugin_name . '-settings',
-			$this->plugin_name . '-settings-section-form',
-			array(
-				'label_for' => 'instructions_position',
-				'values'	=> array(
-					"top"		=> "Top",
-					"bottom"	=> "Bottom",
+		$general_section = new Section( $setting_id, $this->plugin_name . '-settings-section', 'General Settings' );
+		$general_section->add(
+			new Text_Field( 
+				'email',
+				'Email',
+				array(
+					'label_for' => 'email',
+					'description' => __( '(Optional) The email who will receive notifications whenever a tip was sent. If empty, defaults to admin email.', 'fourth-estate-news-tip' )
 				),
-				'description' => __( 'Label of the button', 'fourth-estate-news-tip' )
 			)
 		);
+		$general_section->render();
+
+		$buttonSection = new Section( $setting_id, $this->plugin_name . '-settings-section-button', 'Button' );
+		$buttonSection->add(
+			new Text_Field( 
+				'label',
+				'Label',
+				array(
+					'label_for' => 'label',
+					'description' => __( 'Label of the button', 'fourth-estate-news-tip' )
+				),
+			)
+		);
+		$buttonSection->render();
+
+		$formSection = new Section( $setting_id, $this->plugin_name . '-settings-section-form', 'Form' );
+		$formSection->add(
+			new WYSIWYG_Field( 
+				'instructions',
+				'Instructions',
+				array(
+					'label_for' => 'instructions',
+					'description' => __( 'Label of the button', 'fourth-estate-news-tip' )
+				),
+			)
+		);
+		$formSection->add(
+			new Select_Field( 
+				'instructions_position',
+				'Instructions Position',
+				array(
+					'label_for' => 'instructions_position',
+					'values'	=> array(
+						"top"		=> "Top",
+						"bottom"	=> "Bottom",
+					),
+					'description' => __( 'Label of the button', 'fourth-estate-news-tip' )
+				),
+			)
+		);
+		$formSection->render();
 
 	}
 
@@ -375,89 +357,4 @@ class Fourth_Estate_News_Tip_Admin {
 		<?php
 
 	}
-
-	/**
-	 * Sandbox our inputs with text
-	 *
-	 * @since    1.0.0
-	 */
-	public function sandbox_add_settings_field_input_text( $args ) {
-
-		$field_id = $args['label_for'];
-		$field_default = $args['default'];
-
-		$options = get_option( $this->plugin_name . '-settings' );
-		$option = $field_default;
-
-		if ( ! empty( $options[ $field_id ] ) ) {
-
-			$option = $options[ $field_id ];
-
-		}
-
-		?>
-		
-			<input type="text" name="<?php echo $this->plugin_name . '-settings[' . $field_id . ']'; ?>" id="<?php echo $this->plugin_name . '-settings[' . $field_id . ']'; ?>" value="<?php echo esc_attr( $option ); ?>" class="regular-text" />
-
-		<?php
-
-	}
-
-	/**
-	 * Sandbox our inputs with wysiwyg editor
-	 *
-	 * @since    1.0.0
-	 */
-	public function sandbox_add_settings_field_editor( $args )
-	{
-		$field_id = $args['label_for'];
-		$field_default = $args['default'];  
-		$args = array(
-			'textarea_name' => $this->plugin_name . '-settings[' . $field_id . ']',
-			'media_buttons' => false,
-			'teeny'         => false, 
-			'tinymce'       => true,
-			'wpautop'       => true,
-		);
-
-		$options = get_option( $this->plugin_name . '-settings' );
-		// var_dump( $options ); exit;
-		$option = $field_default;
-
-		if ( ! empty( $options[ $field_id ] ) ) {
-
-			$option = stripslashes( html_entity_decode( $options[ $field_id ] ) );
-
-		}
-
-		wp_editor( $option, $field_id, $args );
-	}
-	/**
-	 * Sandbox our inputs with radio buttons editor
-	 *
-	 * @since    1.0.0
-	 */
-	public function sandbox_add_settings_field_radio( $args )
-	{
-		$values = $args['values'];
-		$field_id = $args['label_for'];
-		$field_default = $args['default'];  
-		$options = get_option( $this->plugin_name . '-settings' );
-		$option = $field_default;
-
-		if ( ! empty( $options[ $field_id ] ) ) {
-
-			$option = $options[ $field_id ];
-
-		}
-
-		?>
-			<select name="<?php echo $this->plugin_name . '-settings[' . $field_id . ']'; ?>" id="<?php echo $this->plugin_name . '-settings[' . $field_id . ']'; ?>">
-				<?php foreach ( $values as $key => $value ) : ?>
-					<option value="<?php esc_attr_e( $key ) ?>" <?php echo $key === $option ? 'selected' : '' ?> ><?php esc_attr_e( $value ) ?></option>
-				<?php endforeach; ?>
-			</select>
-		<?php
-	}
-
 }
