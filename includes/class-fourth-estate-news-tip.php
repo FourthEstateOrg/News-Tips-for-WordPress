@@ -101,39 +101,46 @@ class Fourth_Estate_News_Tip {
 	 */
 	private function load_dependencies() {
 
+		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/class-template-loader.php';
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-fourth-estate-news-tip-loader.php';
+		require_once NEWS_TIP_PLUGIN_PATH . 'includes/class-fourth-estate-news-tip-loader.php';
 
 		/**
 		 * Loading plugin helper classes
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/classes/settings/class-section.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/classes/settings/fields/interface-field-markup.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/classes/settings/fields/abstract-field.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/classes/settings/fields/class-text-field.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/classes/settings/fields/class-wysiwyg-field.php';
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/classes/settings/fields/class-select-field.php';
+		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/settings/class-section.php';
+		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/settings/class-settings.php';
+		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/settings/fields/interface-field-markup.php';
+		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/settings/fields/abstract-field.php';
+		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/settings/fields/class-text-field.php';
+		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/settings/fields/class-wysiwyg-field.php';
+		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/settings/fields/class-select-field.php';
+
+		/**
+		 * News Tip Form
+		 */
+		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/widgets/form/class-form.php';
 		
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-fourth-estate-news-tip-i18n.php';
+		require_once NEWS_TIP_PLUGIN_PATH . 'includes/class-fourth-estate-news-tip-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-fourth-estate-news-tip-admin.php';
+		require_once NEWS_TIP_PLUGIN_PATH . 'admin/class-fourth-estate-news-tip-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-fourth-estate-news-tip-public.php';
+		require_once NEWS_TIP_PLUGIN_PATH . 'public/class-fourth-estate-news-tip-public.php';
 
 		$this->loader = new Fourth_Estate_News_Tip_Loader();
 
@@ -171,7 +178,8 @@ class Fourth_Estate_News_Tip {
 
 		// Hook our settings
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_settings' );
-
+		
+		$this->loader->add_action( 'init', $plugin_admin, 'register_post_types' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
@@ -190,7 +198,8 @@ class Fourth_Estate_News_Tip {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-
+		
+		$this->loader->add_shortcode( 'news-tip-form', $plugin_public, 'news_tip_form' );
 	}
 
 	/**

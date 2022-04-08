@@ -6,6 +6,7 @@ use News_Tip\Settings\Fields\Text_Field;
 use News_Tip\Settings\Fields\Select_Field;
 use News_Tip\Settings\Fields\WYSIWYG_Field;
 use News_Tip\Settings\Section;
+use News_Tip\Settings\Settings;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -71,20 +72,55 @@ class Fourth_Estate_News_Tip_Admin {
 			return;
 		}
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Fourth_Estate_News_Tip_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Fourth_Estate_News_Tip_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/fourth-estate-news-tip-admin.css', array(), $this->version, 'all' );
 
+	}
+
+	/**
+	 * Registers a new post type called news-tip 
+	 *
+	 * @since	1.0.1
+	 * @return 	void
+	 */
+	public function register_post_types()
+	{
+		$labels = array(
+			'name'                  => _x( 'News Tips', 'Post type general name', 'fourth-estate-news-tip' ),
+			'singular_name'         => _x( 'News Tip', 'Post type singular name', 'fourth-estate-news-tip' ),
+			'menu_name'             => _x( 'News Tips', 'Admin Menu text', 'fourth-estate-news-tip' ),
+			'name_admin_bar'        => _x( 'News Tip', 'Add New on Toolbar', 'fourth-estate-news-tip' ),
+			'add_new'               => __( 'Add New', 'fourth-estate-news-tip' ),
+			'add_new_item'          => __( 'Add New Tip', 'fourth-estate-news-tip' ),
+			'new_item'              => __( 'New Tip', 'fourth-estate-news-tip' ),
+			'edit_item'             => __( 'Edit Tip', 'fourth-estate-news-tip' ),
+			'view_item'             => __( 'View Tip', 'fourth-estate-news-tip' ),
+			'all_items'             => __( 'All Tips', 'fourth-estate-news-tip' ),
+			'search_items'          => __( 'Search Tips', 'fourth-estate-news-tip' ),
+			'parent_item_colon'     => __( 'Parent Tips:', 'fourth-estate-news-tip' ),
+			'not_found'             => __( 'No tips found.', 'fourth-estate-news-tip' ),
+			'not_found_in_trash'    => __( 'No tips found in Trash.', 'fourth-estate-news-tip' ),
+			'archives'              => __( 'Tips archives', 'fourth-estate-news-tip' ),
+			'filter_items_list'     => __( 'Filter Tips', 'fourth-estate-news-tip' ),
+		);
+	 
+		$args = array(
+			'labels'             => $labels,
+			'public'             => true,
+			'publicly_queryable' => true,
+			'menu_position'		 => 28,
+			'menu_icon'			 => 'dashicons-buddicons-pm',
+			'show_ui'            => true,
+			'show_in_menu'       => true,
+			'query_var'          => true,
+			'rewrite'            => array( 'slug' => 'news-tips' ),
+			'capability_type'    => 'post',
+			'has_archive'        => true,
+			'hierarchical'       => false,
+			'menu_position'      => null,
+			'supports'           => array( 'title', 'editor' ),
+		);
+	 
+		register_post_type( 'news-tips', $args );
 	}
 
 	/**
@@ -118,15 +154,26 @@ class Fourth_Estate_News_Tip_Admin {
 	public function register_settings_page() {
 		// Create our settings page as a submenu page.
 		add_submenu_page(
-			'options-general.php',                             // parent slug
-			__( 'News Tip', 'fourth-estate-news-tip' ),      // page title
-			__( 'News Tip', 'fourth-estate-news-tip' ),      // menu title
+			'edit.php?post_type=news-tips',                             // parent slug
+			__( 'Settings', 'fourth-estate-news-tip' ),      // page title
+			__( 'Settings', 'fourth-estate-news-tip' ),      // menu title
 			'manage_options',                        // capability
-			'fourth-estate-news-tip',                           // menu_slug
+			'fourth-estate-news-tip-settings',                           // menu_slug
 			array( $this, 'display_settings_page' )  // callable function
 		);
 	}
 
+	/**
+	 * Display the settings page content for the page we have created.
+	 *
+	 * @since    1.0.0
+	 */
+	public function display_all_tips() {
+		echo "all tips";
+		// require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/fourth-estate-news-tip-admin-display.php';
+
+	}
+	
 	/**
 	 * Display the settings page content for the page we have created.
 	 *
@@ -148,11 +195,7 @@ class Fourth_Estate_News_Tip_Admin {
 		$setting_id = $this->plugin_name . '-settings';
 
 		// Here we are going to register our setting.
-		register_setting(
-			$this->plugin_name . '-settings',
-			$this->plugin_name . '-settings',
-			array( $this, 'sandbox_register_setting' )
-		);
+		$settings = new Settings( $setting_id );
 
 		$general_section = new Section( $setting_id, $this->plugin_name . '-settings-section', 'General Settings' );
 		$general_section->add(
@@ -183,53 +226,25 @@ class Fourth_Estate_News_Tip_Admin {
 		$formSection = new Section( $setting_id, $this->plugin_name . '-settings-section-form', 'Form' );
 		$formSection->add(
 			new WYSIWYG_Field( 
-				'instructions',
-				'Instructions',
+				'before_content',
+				'Before Content',
 				array(
-					'label_for' => 'instructions',
+					'label_for' => 'before_content',
 					'description' => __( 'Label of the button', 'fourth-estate-news-tip' )
 				),
 			)
 		);
 		$formSection->add(
-			new Select_Field( 
-				'instructions_position',
-				'Instructions Position',
+			new WYSIWYG_Field( 
+				'before_submit',
+				'Before Submit',
 				array(
-					'label_for' => 'instructions_position',
-					'values'	=> array(
-						"top"		=> "Top",
-						"bottom"	=> "Bottom",
-					),
+					'label_for' => 'before_submit',
 					'description' => __( 'Label of the button', 'fourth-estate-news-tip' )
 				),
 			)
 		);
 		$formSection->render();
-
-	}
-
-	/**
-	 * Sandbox our settings.
-	 *
-	 * @since    1.0.0
-	 */
-	public function sandbox_register_setting( $input ) {
-
-		$new_input = array();
-
-		if ( isset( $input ) ) {
-			// Loop trough each input and sanitize the value if the input id isn't post-types
-			foreach ( $input as $key => $value ) {
-				if ( $key == 'instructions' ) {
-					$new_input[ $key ] = $value;
-				} else {
-					$new_input[ $key ] = sanitize_text_field( $value );
-				}
-			}
-		}
-
-		return $new_input;
 
 	}
 

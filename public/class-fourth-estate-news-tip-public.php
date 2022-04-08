@@ -10,6 +10,8 @@
  * @subpackage Fourth_Estate_News_Tip/public
  */
 
+use News_Tip\Template_Loader;
+
 /**
  * The public-facing functionality of the plugin.
  *
@@ -98,6 +100,22 @@ class Fourth_Estate_News_Tip_Public {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/fourth-estate-news-tip-public.js', array( 'jquery' ), $this->version, false );
 
+	}
+
+	public function news_tip_form( $atts )
+	{
+		$atts = shortcode_atts( array(
+			'foo' => 'no foo',
+			'baz' => 'default baz'
+		), $atts, 'bartag' );
+
+		$options = get_option( 'fourth-estate-news-tip-settings' );
+
+		add_action('wp_footer', function() use ($options) {
+			echo Template_Loader::get_template( 'form.php', $options ); 
+		});
+
+		return Template_Loader::get_template( 'trigger.php', $options ); 
 	}
 
 }

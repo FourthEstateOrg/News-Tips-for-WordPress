@@ -16,7 +16,7 @@
  * Plugin Name:       Fourth Estate News Tip
  * Plugin URI:        https://www.fourthestate.org/
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Fourth Estate
  * Author URI:        https://www.fourthestate.org/
  * License:           GPL-2.0+
@@ -37,12 +37,14 @@ if ( ! defined( 'WPINC' ) ) {
  */
 define( 'FOURTH_ESTATE_NEWS_TIP_VERSION', '1.0.0' );
 
+define( 'NEWS_TIP_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-fourth-estate-news-tip-activator.php
  */
 function activate_fourth_estate_news_tip() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-fourth-estate-news-tip-activator.php';
+	require_once NEWS_TIP_PLUGIN_PATH . 'includes/class-fourth-estate-news-tip-activator.php';
 	Fourth_Estate_News_Tip_Activator::activate();
 }
 
@@ -51,7 +53,7 @@ function activate_fourth_estate_news_tip() {
  * This action is documented in includes/class-fourth-estate-news-tip-deactivator.php
  */
 function deactivate_fourth_estate_news_tip() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-fourth-estate-news-tip-deactivator.php';
+	require_once NEWS_TIP_PLUGIN_PATH . 'includes/class-fourth-estate-news-tip-deactivator.php';
 	Fourth_Estate_News_Tip_Deactivator::deactivate();
 }
 
@@ -62,7 +64,7 @@ register_deactivation_hook( __FILE__, 'deactivate_fourth_estate_news_tip' );
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-fourth-estate-news-tip.php';
+require NEWS_TIP_PLUGIN_PATH . 'includes/class-fourth-estate-news-tip.php';
 
 /**
  * Begins execution of the plugin.

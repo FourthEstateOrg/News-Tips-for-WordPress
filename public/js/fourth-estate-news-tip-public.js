@@ -29,4 +29,13 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
+	$( document ).on( 'click', '.open-news-tip-modal', function(e) {
+		e.preventDefault();
+		$( '.news-tip-modal' ).show();
+	});
+	$( document ).on( 'click', 'a.news-tip-close', function(e) {
+		e.preventDefault();
+		$( '.news-tip-modal' ).hide();
+	});
+
 })( jQuery );
