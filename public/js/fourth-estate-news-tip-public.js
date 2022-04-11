@@ -37,5 +37,26 @@
 		e.preventDefault();
 		$( '.news-tip-modal' ).hide();
 	});
+	$( document ).on( 'click', '.news-tip-tabs li.tab-menu a', function(e) {
+		e.preventDefault();
+		var targetTabContent = $( this ).data( 'target' );
+		$( '.tab-content' ).hide();
+		$( '.news-tip-tabs li.tab-menu' ).removeClass( 'active' );
+		$( targetTabContent ).show();
+		$( this ).parent().addClass( 'active' );
+	});
+
+	$( document ).on('submit', '#news-tip-form', function(e) {
+		e.preventDefault();
+		var data = {
+			'action': 'send_news_tip',
+			'message': $('textarea#message').val(),
+			'full_name': $('input#full_name').val(),
+			'email': $('input#email').val(),
+		};
+		$.post(newstip.admin_ajax, data, function(response) {
+			console.log(response);
+		});
+	});
 
 })( jQuery );

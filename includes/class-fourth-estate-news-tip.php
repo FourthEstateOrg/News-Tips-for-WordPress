@@ -183,6 +183,8 @@ class Fourth_Estate_News_Tip {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
+		$this->loader->add_action( 'wp_ajax_send_news_tip', $plugin_admin, 'send_news_tip' );
+		$this->loader->add_action( 'wp_ajax_nopriv_send_news_tip', $plugin_admin, 'send_news_tip' );
 	}
 
 	/**

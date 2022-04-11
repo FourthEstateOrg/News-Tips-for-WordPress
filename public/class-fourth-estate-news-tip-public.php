@@ -100,6 +100,10 @@ class Fourth_Estate_News_Tip_Public {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/fourth-estate-news-tip-public.js', array( 'jquery' ), $this->version, false );
 
+		$object = array(
+			"admin_ajax" => admin_url('admin-ajax.php'),
+		);
+		wp_localize_script( $this->plugin_name, 'newstip', $object );
 	}
 
 	public function news_tip_form( $atts )
@@ -112,7 +116,7 @@ class Fourth_Estate_News_Tip_Public {
 		$options = get_option( 'fourth-estate-news-tip-settings' );
 
 		add_action('wp_footer', function() use ($options) {
-			echo Template_Loader::get_template( 'form.php', $options ); 
+			echo Template_Loader::get_template( 'news-tip-modal.php', $options ); 
 		});
 
 		return Template_Loader::get_template( 'trigger.php', $options ); 

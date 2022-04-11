@@ -198,6 +198,28 @@ class Fourth_Estate_News_Tip_Admin {
 		$settings = new Settings( $setting_id );
 
 		$general_section = new Section( $setting_id, $this->plugin_name . '-settings-section', 'General Settings' );
+
+		$page_select_values = array();
+
+		/**
+		 * @var \WP_Post[] $pages 
+		 */
+		$pages = get_pages();
+		foreach ( $pages as $page ) {
+			$page_select_values[ $page->ID ] = $page->post_title;
+		}
+
+		$general_section->add(
+			new Select_Field( 
+				'instruction_page',
+				'Instruction Page',
+				array(
+					'label_for' => 'instruction_page',
+					'description' => __( 'You can select which page you wish to include as the instruction content of the popup.', 'fourth-estate-news-tip' ),
+					'values' => $page_select_values,
+				),
+			)
+		);
 		$general_section->add(
 			new Text_Field( 
 				'email',
@@ -371,5 +393,19 @@ class Fourth_Estate_News_Tip_Admin {
 
 		<?php
 
+	}
+
+	public function send_news_tip()
+	{		
+		$full_name = sanitize_text_field( $_POST['full_name'] );
+		$message = sanitize_textarea_field( $_POST['message'] );
+		$name = isset( $full_name ) && $full_name != '' ? $full_name : 'Anonymous'; 
+		$post = array(
+			'post_type' => 'news-tips',
+			'post_title' => esc_html( $name ),
+			'post_content' => esc_html( $message ),
+		);
+		$post_id = wp_insert_post( $post );
+		update_post_meta( $post_id, 'email', sanitize_email( $_POST['email'] ) );
 	}
 }

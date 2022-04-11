@@ -13,14 +13,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: auto;
 }
 .news-tip-modal-content {
     background-color: #fff;
     padding: 40px;
-    max-width: 340px;
+    max-width: 500px;
     width: 100%;
     border-radius: 5px;
-    position: relative;
+    position: absolute;
+    top: 125px;
 }
 a.news-tip-close {
     position: absolute;
@@ -34,4 +36,52 @@ a.news-tip-close {
 }
 .instructions-container {
     margin-bottom: 2rem;
+}
+ul.news-tip-tabs {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    margin-left: -40px;
+    margin-right: -40px;
+    padding-left: 40px;
+    padding-right: 40px;
+    /* border-bottom: 1px solid #ccc; */
+    position: relative;
+}
+ul.news-tip-tabs li {
+    flex: 1;
+    /* margin-bottom: -1px; */
+}
+ul.news-tip-tabs li a {
+    display: block;
+    padding: 10px 20px;
+    /* border: 1px solid #ccc;
+    border-right: 0; */
+    cursor: pointer;
+}
+/* ul.news-tip-tabs li:last-of-type a {
+    border-right: 1px solid #ccc;
+} */
+ul.news-tip-tabs li.active a {
+    border-bottom: 5px solid #000;
+}
+.news-tip-modal-content .tab-content:not(.active) {
+    display: none;
+}
+
+/* Button Trigger Styling */
+button.button.open-news-tip-modal {
+    background: #000;
+    border: 0;
+    color: #fff;
+    padding: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+button.button.open-news-tip-modal:hover {
+    background: #fff;
+    border: 1px solid #000;
+    color: #000;
 }
