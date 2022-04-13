@@ -77,53 +77,6 @@ class Fourth_Estate_News_Tip_Admin {
 	}
 
 	/**
-	 * Registers a new post type called news-tip 
-	 *
-	 * @since	1.0.1
-	 * @return 	void
-	 */
-	public function register_post_types()
-	{
-		$labels = array(
-			'name'                  => _x( 'News Tips', 'Post type general name', 'fourth-estate-news-tip' ),
-			'singular_name'         => _x( 'News Tip', 'Post type singular name', 'fourth-estate-news-tip' ),
-			'menu_name'             => _x( 'News Tips', 'Admin Menu text', 'fourth-estate-news-tip' ),
-			'name_admin_bar'        => _x( 'News Tip', 'Add New on Toolbar', 'fourth-estate-news-tip' ),
-			'add_new'               => __( 'Add New', 'fourth-estate-news-tip' ),
-			'add_new_item'          => __( 'Add New Tip', 'fourth-estate-news-tip' ),
-			'new_item'              => __( 'New Tip', 'fourth-estate-news-tip' ),
-			'edit_item'             => __( 'Edit Tip', 'fourth-estate-news-tip' ),
-			'view_item'             => __( 'View Tip', 'fourth-estate-news-tip' ),
-			'all_items'             => __( 'All Tips', 'fourth-estate-news-tip' ),
-			'search_items'          => __( 'Search Tips', 'fourth-estate-news-tip' ),
-			'parent_item_colon'     => __( 'Parent Tips:', 'fourth-estate-news-tip' ),
-			'not_found'             => __( 'No tips found.', 'fourth-estate-news-tip' ),
-			'not_found_in_trash'    => __( 'No tips found in Trash.', 'fourth-estate-news-tip' ),
-			'archives'              => __( 'Tips archives', 'fourth-estate-news-tip' ),
-			'filter_items_list'     => __( 'Filter Tips', 'fourth-estate-news-tip' ),
-		);
-	 
-		$args = array(
-			'labels'             => $labels,
-			'public'             => true,
-			'publicly_queryable' => true,
-			'menu_position'		 => 28,
-			'menu_icon'			 => 'dashicons-buddicons-pm',
-			'show_ui'            => true,
-			'show_in_menu'       => true,
-			'query_var'          => true,
-			'rewrite'            => array( 'slug' => 'news-tips' ),
-			'capability_type'    => 'post',
-			'has_archive'        => true,
-			'hierarchical'       => false,
-			'menu_position'      => null,
-			'supports'           => array( 'title', 'editor' ),
-		);
-	 
-		register_post_type( 'news-tips', $args );
-	}
-
-	/**
 	 * Register the JavaScript for the admin area.
 	 *
 	 * @since    1.0.0
@@ -393,19 +346,5 @@ class Fourth_Estate_News_Tip_Admin {
 
 		<?php
 
-	}
-
-	public function send_news_tip()
-	{		
-		$full_name = sanitize_text_field( $_POST['full_name'] );
-		$message = sanitize_textarea_field( $_POST['message'] );
-		$name = isset( $full_name ) && $full_name != '' ? $full_name : 'Anonymous'; 
-		$post = array(
-			'post_type' => 'news-tips',
-			'post_title' => esc_html( $name ),
-			'post_content' => esc_html( $message ),
-		);
-		$post_id = wp_insert_post( $post );
-		update_post_meta( $post_id, 'email', sanitize_email( $_POST['email'] ) );
 	}
 }

@@ -42,7 +42,6 @@ class Template_Loader {
             return;
         endif;
 
-        // var_dump( $template_file ); exit;
         ob_start();
         include $template_file;
         $content = ob_get_contents();

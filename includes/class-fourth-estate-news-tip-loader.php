@@ -139,7 +139,7 @@ class Fourth_Estate_News_Tip_Loader {
 	 * @since    1.0.0
 	 */
 	public function run() {
-
+		// var_dump( $this->actions ); exit;
 		foreach ( $this->filters as $hook ) {
 			add_filter( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
 		}

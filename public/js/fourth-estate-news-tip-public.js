@@ -32,6 +32,8 @@
 	$( document ).on( 'click', '.open-news-tip-modal', function(e) {
 		e.preventDefault();
 		$( '.news-tip-modal' ).show();
+		$( '.online-form-container' ).show();
+		$( '.news-tip-notice' ).remove();
 	});
 	$( document ).on( 'click', 'a.news-tip-close', function(e) {
 		e.preventDefault();
@@ -48,14 +50,24 @@
 
 	$( document ).on('submit', '#news-tip-form', function(e) {
 		e.preventDefault();
+		var submitButton = $(this).find('button');
+		submitButton.attr('disabled', true);
+		submitButton.addClass('loading');
+
 		var data = {
 			'action': 'send_news_tip',
 			'message': $('textarea#message').val(),
 			'full_name': $('input#full_name').val(),
 			'email': $('input#email').val(),
+			'contact_number': $('input#contact_number').val(),
 		};
 		$.post(newstip.admin_ajax, data, function(response) {
-			console.log(response);
+			setTimeout(function() {
+				$('div#online-form').append('<span class="news-tip-notice success">Tip Sent Successfully!</span>');
+				$('.online-form-container').hide();
+				submitButton.attr('disabled', false);
+				submitButton.removeClass('loading');
+			}, 2000);
 		});
 	});
 

@@ -1,6 +1,8 @@
 <?php
 
 use News_Tip\Admin\Fourth_Estate_News_Tip_Admin;
+use News_Tip\News_Tip_Post_Type;
+use News_Tip\Widgets\Form;
 
 /**
  * The file that defines the core plugin class
@@ -101,6 +103,7 @@ class Fourth_Estate_News_Tip {
 	 */
 	private function load_dependencies() {
 
+		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/class-news-tip-post-type.php';
 		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/class-template-loader.php';
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
@@ -122,7 +125,7 @@ class Fourth_Estate_News_Tip {
 		/**
 		 * News Tip Form
 		 */
-		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/widgets/form/class-form.php';
+		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/widgets/class-form.php';
 		
 
 		/**
@@ -179,12 +182,11 @@ class Fourth_Estate_News_Tip {
 		// Hook our settings
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'register_settings' );
 		
-		$this->loader->add_action( 'init', $plugin_admin, 'register_post_types' );
+		// $this->loader->add_action( 'init', $plugin_admin, 'register_post_types' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
-		$this->loader->add_action( 'wp_ajax_send_news_tip', $plugin_admin, 'send_news_tip' );
-		$this->loader->add_action( 'wp_ajax_nopriv_send_news_tip', $plugin_admin, 'send_news_tip' );
+		new News_Tip_Post_Type( $this->loader );
 	}
 
 	/**
@@ -201,7 +203,10 @@ class Fourth_Estate_News_Tip {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		
-		$this->loader->add_shortcode( 'news-tip-form', $plugin_public, 'news_tip_form' );
+		/**
+		 * Handles form shortcode and actions
+		 */
+		$form = new Form( $this->get_loader() );
 	}
 
 	/**

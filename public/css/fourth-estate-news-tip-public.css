@@ -33,6 +33,8 @@ a.news-tip-close {
 .nt-form-group {
     display: flex;
     flex-direction: column;
+    position: relative;
+    margin-bottom: 10px;
 }
 .instructions-container {
     margin-bottom: 2rem;
@@ -69,9 +71,19 @@ ul.news-tip-tabs li.active a {
 .news-tip-modal-content .tab-content:not(.active) {
     display: none;
 }
+.nt-form-group input {
+    height: 40px;
+    font-size: 16px;
+    padding: 0 15px;
+}
+.nt-form-group textarea {
+    font-size: 16px;
+    padding: 10px;
+}
 
 /* Button Trigger Styling */
-button.button.open-news-tip-modal {
+button.button.open-news-tip-modal,
+.nt-form-group button {
     background: #000;
     border: 0;
     color: #fff;
@@ -79,9 +91,60 @@ button.button.open-news-tip-modal {
     font-weight: bold;
     text-transform: uppercase;
     cursor: pointer;
+    height: 55px;
 }
-button.button.open-news-tip-modal:hover {
+button.button.open-news-tip-modal:hover,
+.nt-form-group button:hover {
     background: #fff;
     border: 1px solid #000;
     color: #000;
+}
+
+.nt-form-group button.loading {
+    font-size: 0;
+}
+.nt-form-group button.loading:after {
+    content: "";
+    position: absolute;
+    border-radius: 100%;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    top: 50%;
+    width: 0px;
+    height: 0px;
+    margin-top: -2px;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-left-color: #FFF;
+    border-top-color: #FFF;
+    animation: spin .6s infinite linear, grow .3s forwards ease-out;
+}
+.nt-form-group button.loading:hover:after {
+    border: 2px solid rgba(255,255,255,0.5);
+    border-left-color: #000;
+    border-top-color: #000;
+}
+@keyframes spin { 
+    to {
+        transform: rotate(359deg);
+    }
+}
+@keyframes grow { 
+    to {
+        width: 14px;
+        height: 14px;
+        margin-top: -8px;
+        right: 13px;
+    }
+}
+
+/* News Tip Notice */
+span.news-tip-notice {
+    display: block;
+    margin-top: 25px;
+    padding: 10px 20px;
+}
+span.news-tip-notice.success {
+    border: 1px solid #2f872f;
+    background-color: #c8e3c8;
 }

@@ -25,13 +25,15 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Don't allow direct access
         </div>
 
         <div class="tab-content" id="online-form">
-            <?php if ( $before_content ): ?>
-                <div class="nt-before-content-container">
-                    <?php echo wpautop($before_content); ?>
-                </div>
-            <?php endif; ?>
+            <div class="online-form-container">
+                <?php if ( $before_content ): ?>
+                    <div class="nt-before-content-container">
+                        <?php echo wpautop($before_content); ?>
+                    </div>
+                <?php endif; ?>
 
-            <?php echo Template_Loader::get_template('form.php', array( 'before_submit' => $before_submit )); ?>
+                <?php echo Template_Loader::get_template('form.php', array( 'before_submit' => $before_submit )); ?>
+            </div>
         </div>
         
     </div>
