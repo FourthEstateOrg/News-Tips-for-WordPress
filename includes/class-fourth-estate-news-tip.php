@@ -104,7 +104,9 @@ class Fourth_Estate_News_Tip {
 	private function load_dependencies() {
 
 		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/class-news-tip-post-type.php';
+		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/class-notification.php';
 		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/class-template-loader.php';
+		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/class-field-validator.php';
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.

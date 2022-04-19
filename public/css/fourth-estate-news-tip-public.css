@@ -34,7 +34,7 @@ a.news-tip-close {
     display: flex;
     flex-direction: column;
     position: relative;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 .instructions-container {
     margin-bottom: 2rem;
@@ -71,14 +71,26 @@ ul.news-tip-tabs li.active a {
 .news-tip-modal-content .tab-content:not(.active) {
     display: none;
 }
-.nt-form-group input {
-    height: 40px;
+.nt-form-group .nt-field {
+    height: 55px;
     font-size: 16px;
     padding: 0 15px;
+    display: block;
 }
-.nt-form-group textarea {
+.nt-form-group textarea.nt-field {
     font-size: 16px;
     padding: 10px;
+}
+/* Form Errors */
+.nt-form-group.has-error .nt-field {
+    border: 1px solid red;
+}
+.nt-form-group.has-error label.nt-label,
+.nt-form-group.has-error span.error-message {
+    color: red;
+}
+.nt-form-group.has-error span.error-message {
+    font-size: 14px;
 }
 
 /* Button Trigger Styling */
@@ -92,12 +104,20 @@ button.button.open-news-tip-modal,
     text-transform: uppercase;
     cursor: pointer;
     height: 55px;
+    line-height: 1;
+    font-size: 16px;
 }
 button.button.open-news-tip-modal:hover,
 .nt-form-group button:hover {
     background: #fff;
     border: 1px solid #000;
     color: #000;
+}
+a.open-news-tip-modal {
+    cursor: pointer;
+}
+a.open-news-tip-modal:hover {
+    text-decoration: underline;
 }
 
 .nt-form-group button.loading {

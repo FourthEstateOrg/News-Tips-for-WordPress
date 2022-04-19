@@ -2,6 +2,7 @@
 
 namespace News_Tip\Widgets;
 
+use News_Tip\Field_Validator;
 use News_Tip\Template_Loader;
 
 class Form
@@ -44,7 +45,26 @@ class Form
     }
 
     public function send_news_tip()
-	{		
+	{
+        if ( ! wp_verify_nonce( $_POST['nonce'], 'news-tip' ) ) {
+            die ( 'Busted!' );
+        }
+
+        $validator = new Field_Validator( array(
+            "message" => array(
+                "required" => true,
+            ),
+            "email" => array(
+                "required" => true,
+                "email"    => true,
+            ),
+        ) );
+        $validator->validate( $_POST );
+
+        if ( ! $validator->is_valid() ) {
+            die( $validator->get_error_response() );
+        }
+
 		$full_name = sanitize_text_field( $_POST['full_name'] );
 		$message = sanitize_textarea_field( $_POST['message'] );
 		$name = isset( $full_name ) && $full_name != '' ? $full_name : 'Anonymous'; 
@@ -61,5 +81,29 @@ class Form
         if ( isset( $_POST['contact_number'] ) ) {
             update_post_meta( $post_id, 'contact_number', sanitize_text_field( $_POST['contact_number'] ) );
         }
+
+        // removing white space
+        $fileName = preg_replace('/\s+/', '-', $_FILES["file_upload"]["name"]);
+
+        // removing special character but keep . character because . seprate to extantion of file
+        $fileName = preg_replace('/[^A-Za-z0-9.\-]/', '', $fileName);
+
+        // rename file using time
+	    $fileName = time().'-'.$fileName;
+
+        if ($upload = wp_upload_bits($fileName, null, file_get_contents($_FILES["file"]["tmp_name"])) ) {
+            update_post_meta( $post_id, 'file_upload', sanitize_url( $upload['url'] ) );
+        }
+
+        $options = get_option( 'fourth-estate-news-tip-settings' );
+        $recipient = $options['email'];
+        $subject = "News Tip from " . esc_html( $name );
+        $message = "A new tip submission from " . esc_html( $name );
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+        wp_mail( $recipient, $subject, $message, $headers );
+
+        die( json_encode( [
+            "success" => 1
+        ] ) );
 	}
 }

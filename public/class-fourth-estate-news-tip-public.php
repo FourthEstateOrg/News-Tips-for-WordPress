@@ -102,6 +102,7 @@ class Fourth_Estate_News_Tip_Public {
 
 		$object = array(
 			"admin_ajax" => admin_url('admin-ajax.php'),
+			'nonce' 	 => wp_create_nonce('news-tip')
 		);
 		wp_localize_script( $this->plugin_name, 'newstip', $object );
 	}

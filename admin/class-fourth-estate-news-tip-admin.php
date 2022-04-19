@@ -196,6 +196,21 @@ class Fourth_Estate_News_Tip_Admin {
 				),
 			)
 		);
+		$buttonSection->add(
+			new Select_Field( 
+				'display_as',
+				'Display trigger as',
+				array(
+					'label_for' => 'display_as',
+					'description' => __( 'You can select which page you wish to include as the instruction content of the popup.', 'fourth-estate-news-tip' ),
+					'default'	=> 'button',
+					'values' => [
+						"button" => "Button",
+						"link"  => "Link",
+					],
+				),
+			)
+		);
 		$buttonSection->render();
 
 		$formSection = new Section( $setting_id, $this->plugin_name . '-settings-section-form', 'Form' );

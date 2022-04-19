@@ -12,19 +12,23 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Don't allow direct access
         
         <h2><?php echo _e( 'Report Information', 'fourth-estate-news-tip' ) ?></h2>
 
-        <ul class="news-tip-tabs">
-            <li class="tab-menu active"><a data-target="#instructions"><?php echo _e( 'Instructions', 'fourth-estate-news-tip' ) ?></a></li>
-            <li class="tab-menu"><a data-target="#online-form"><?php echo _e( 'Online Form', 'fourth-estate-news-tip' ) ?></a></li>
-        </ul>
+        <?php if ( $instruction_page ): ?>
+            <ul class="news-tip-tabs">
+                <li class="tab-menu active"><a data-target="#instructions"><?php echo _e( 'Instructions', 'fourth-estate-news-tip' ) ?></a></li>            
+                <li class="tab-menu"><a data-target="#online-form"><?php echo _e( 'Online Form', 'fourth-estate-news-tip' ) ?></a></li>
+            </ul>
+        <?php endif; ?>
+        
+        <?php if ( $instruction_page ): ?>
+            <div class="tab-content active" id="instructions">
+                <?php 
+                    $instructions_page_object = get_post($instruction_page); 
+                    echo do_shortcode( $instructions_page_object->post_content );
+                ?>
+            </div>
+        <?php endif; ?>
 
-        <div class="tab-content active" id="instructions">
-            <?php 
-                $instructions_page_object = get_post($instruction_page); 
-                echo do_shortcode( $instructions_page_object->post_content );
-            ?>
-        </div>
-
-        <div class="tab-content" id="online-form">
+        <div class="tab-content <?php echo !$instruction_page ? 'active' : '' ?>" id="online-form">
             <div class="online-form-container">
                 <?php if ( $before_content ): ?>
                     <div class="nt-before-content-container">

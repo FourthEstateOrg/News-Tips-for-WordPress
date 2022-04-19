@@ -4,13 +4,11 @@
  * @var \WP_Post $post
  */
 
-// If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	die;
-}
+if ( ! defined( 'ABSPATH' ) ) exit; // Don't allow direct access
 
 $email = get_post_meta( $post->ID, 'email', true );
 $contact_number = get_post_meta( $post->ID, 'contact_number', true );
+$file_upload = get_post_meta( $post->ID, 'file_upload', true );
 
 ?>
 
@@ -26,5 +24,11 @@ $contact_number = get_post_meta( $post->ID, 'contact_number', true );
     </div>
     <div class="data-row">
         <strong>Message:</strong><br /> <?php echo esc_html( $post->post_content ); ?>
+    </div>
+    <div class="data-row">
+        <strong>Uploaded File:</strong><br />
+        <a href="<?php echo $file_upload ; ?>" target="_blank">
+            <img src="<?php echo $file_upload ; ?>" />
+        </a>
     </div>
 </div>

@@ -29,6 +29,8 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
+	 var submitButton = '.online-form-container button[type="submit"]';
+
 	$( document ).on( 'click', '.open-news-tip-modal', function(e) {
 		e.preventDefault();
 		$( '.news-tip-modal' ).show();
@@ -50,25 +52,54 @@
 
 	$( document ).on('submit', '#news-tip-form', function(e) {
 		e.preventDefault();
-		var submitButton = $(this).find('button');
-		submitButton.attr('disabled', true);
-		submitButton.addClass('loading');
+		
+		showFormLoadingState();
+		
+		clearErrors();
 
-		var data = {
-			'action': 'send_news_tip',
-			'message': $('textarea#message').val(),
-			'full_name': $('input#full_name').val(),
-			'email': $('input#email').val(),
-			'contact_number': $('input#contact_number').val(),
-		};
-		$.post(newstip.admin_ajax, data, function(response) {
-			setTimeout(function() {
-				$('div#online-form').append('<span class="news-tip-notice success">Tip Sent Successfully!</span>');
-				$('.online-form-container').hide();
-				submitButton.attr('disabled', false);
-				submitButton.removeClass('loading');
-			}, 2000);
+		var data = new FormData(this);
+		$.ajax({
+			url: newstip.admin_ajax,
+			type:"POST",
+			processData: false,
+			contentType: false,
+			data:  new FormData(this),
+			success: function(response) {
+				setTimeout(function() {
+					response = JSON.parse( response );
+					if ( response.success == 0 ) {
+						if ( response.errors ) {
+							console.log(response.errors)
+							for ( var error in response.errors ) {
+								var field = $("#" + error);
+								field.parent().addClass('has-error');
+								field.parent().append('<span class="error-message">' + response.errors[error] + '</span>')
+							}
+						}
+					} else {
+						$('div#online-form').append('<span class="news-tip-notice success">Tip Sent Successfully!</span>');
+						$('.online-form-container').hide();
+					}
+					
+					hideFormLoadingState();
+				}, 2000);
+			}
 		});
 	});
+
+	function clearErrors() {
+		$('.nt-form-group.has-error .error-message').remove();
+		$('.nt-form-group.has-error').removeClass('has-error');
+	}
+
+	function showFormLoadingState() {
+		$(submitButton).attr('disabled', true);
+		$(submitButton).addClass('loading');
+	}
+
+	function hideFormLoadingState() {
+		$(submitButton).attr('disabled', false);
+		$(submitButton).removeClass('loading');
+	}
 
 })( jQuery );
