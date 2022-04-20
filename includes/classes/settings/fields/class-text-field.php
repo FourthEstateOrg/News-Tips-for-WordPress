@@ -23,11 +23,14 @@ class Text_Field extends Field
 			$option = $options[ $field_id ];
 
 		}
-
 		?>
 		
 			<input type="text" name="<?php echo $this->setting_id . '[' . $field_id . ']'; ?>" id="<?php echo $this->setting_id . '[' . $field_id . ']'; ?>" value="<?php echo esc_attr( $option ); ?>" class="regular-text" />
 
 		<?php
+
+		if ( ! empty( $this->args['description'] ) ) {
+			echo '<br />' . $this->args['description'];
+		}
     }
 }

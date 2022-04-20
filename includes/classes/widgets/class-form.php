@@ -2,7 +2,9 @@
 
 namespace News_Tip\Widgets;
 
+use News_Tip\Emails\Admin_Notification;
 use News_Tip\Field_Validator;
+use News_Tip\Notification;
 use News_Tip\Template_Loader;
 
 class Form
@@ -82,6 +84,9 @@ class Form
             update_post_meta( $post_id, 'contact_number', sanitize_text_field( $_POST['contact_number'] ) );
         }
 
+        $tracking_id = wp_generate_password( 12, false, false );
+        update_post_meta( $post_id, 'tracking_id', sanitize_text_field( $tracking_id ) );
+
         // removing white space
         $fileName = preg_replace('/\s+/', '-', $_FILES["file_upload"]["name"]);
 
@@ -94,16 +99,15 @@ class Form
         if ($upload = wp_upload_bits($fileName, null, file_get_contents($_FILES["file"]["tmp_name"])) ) {
             update_post_meta( $post_id, 'file_upload', sanitize_url( $upload['url'] ) );
         }
+        
+        $admin_notification = new Admin_Notification( get_post( $post_id ) );
+        $admin_notification->send();
 
-        $options = get_option( 'fourth-estate-news-tip-settings' );
-        $recipient = $options['email'];
-        $subject = "News Tip from " . esc_html( $name );
-        $message = "A new tip submission from " . esc_html( $name );
-        $headers = array('Content-Type: text/html; charset=UTF-8');
-        wp_mail( $recipient, $subject, $message, $headers );
+        do_action( 'news_tip_submission_saved' );
 
         die( json_encode( [
-            "success" => 1
+            "success" => 1,
+            "tracking_id" => $tracking_id,
         ] ) );
 	}
 }

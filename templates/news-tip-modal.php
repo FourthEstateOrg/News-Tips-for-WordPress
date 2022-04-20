@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Don't allow direct access
     <div class="news-tip-modal-content">
         <a class="news-tip-close">✕</a>
         
-        <h2><?php echo _e( 'Report Information', 'fourth-estate-news-tip' ) ?></h2>
+        <h2><?php echo _e( 'Send a News Tip', 'fourth-estate-news-tip' ) ?></h2>
 
         <?php if ( $instruction_page ): ?>
             <ul class="news-tip-tabs">

@@ -173,16 +173,6 @@ class Fourth_Estate_News_Tip_Admin {
 				),
 			)
 		);
-		$general_section->add(
-			new Text_Field( 
-				'email',
-				'Email',
-				array(
-					'label_for' => 'email',
-					'description' => __( '(Optional) The email who will receive notifications whenever a tip was sent. If empty, defaults to admin email.', 'fourth-estate-news-tip' )
-				),
-			)
-		);
 		$general_section->render();
 
 		$buttonSection = new Section( $setting_id, $this->plugin_name . '-settings-section-button', 'Button' );
@@ -220,7 +210,7 @@ class Fourth_Estate_News_Tip_Admin {
 				'Before Content',
 				array(
 					'label_for' => 'before_content',
-					'description' => __( 'Label of the button', 'fourth-estate-news-tip' )
+					'description' => __( 'The extra content you want to display before the form.', 'fourth-estate-news-tip' )
 				),
 			)
 		);
@@ -230,11 +220,44 @@ class Fourth_Estate_News_Tip_Admin {
 				'Before Submit',
 				array(
 					'label_for' => 'before_submit',
-					'description' => __( 'Label of the button', 'fourth-estate-news-tip' )
+					'description' => __( 'The extra content you want to display before the submit button.', 'fourth-estate-news-tip' )
 				),
 			)
 		);
 		$formSection->render();
+
+		$email_section = new Section( $setting_id, $this->plugin_name . '-settings-section-email', 'Notification' );
+		$email_section->add(
+			new Text_Field( 
+				'email',
+				'Email',
+				array(
+					'label_for' => 'email',
+					'description' => __( '(Optional) The email who will receive notifications whenever a tip was sent. If empty, defaults to admin email.', 'fourth-estate-news-tip' )
+				),
+			)
+		);
+		$email_section->add(
+			new Text_Field( 
+				'email_subject',
+				'Email Subject',
+				array(
+					'label_for' => 'email_subject',
+					'description' => __( 'You can use these place holders. {name}, {email}, {contact_number}, {tracking_id}, {message}', 'fourth-estate-news-tip' )
+				),
+			)
+		);
+		$email_section->add(
+			new WYSIWYG_Field( 
+				'email_content',
+				'Email Content',
+				array(
+					'label_for' => 'email_content',
+					'description' => __( 'You can use these place holders. {name}, {email}, {contact_number}, {tracking_id}, {message}', 'fourth-estate-news-tip' )
+				),
+			)
+		);
+		$email_section->render();
 
 	}
 

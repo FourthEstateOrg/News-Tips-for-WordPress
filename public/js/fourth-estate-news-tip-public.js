@@ -77,7 +77,7 @@
 							}
 						}
 					} else {
-						$('div#online-form').append('<span class="news-tip-notice success">Tip Sent Successfully!</span>');
+						$('div#online-form').append('<span class="news-tip-notice success">Tip Sent Successfully!<br />Tracking ID: <strong>' + response.tracking_id + '</strong></span>');
 						$('.online-form-container').hide();
 					}
 					

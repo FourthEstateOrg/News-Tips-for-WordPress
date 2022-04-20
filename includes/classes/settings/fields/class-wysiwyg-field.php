@@ -15,9 +15,6 @@ class WYSIWYG_Field extends Field
 
         $args = array(
 			'textarea_name' => $this->setting_id . '[' . $field_id . ']',
-			'media_buttons' => false,
-			'teeny'         => false, 
-			'tinymce'       => true,
 			'wpautop'       => true,
 		);
 
@@ -31,6 +28,7 @@ class WYSIWYG_Field extends Field
 
 		}
 
+		echo $this->args['description'];
 		wp_editor( $option, $field_id, $args );
     }
 }

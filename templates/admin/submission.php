@@ -8,11 +8,15 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Don't allow direct access
 
 $email = get_post_meta( $post->ID, 'email', true );
 $contact_number = get_post_meta( $post->ID, 'contact_number', true );
+$tracking_id = get_post_meta( $post->ID, 'tracking_id', true );
 $file_upload = get_post_meta( $post->ID, 'file_upload', true );
 
 ?>
 
 <div class="nt-submission-content">
+    <div class="data-row">
+        <strong>Tracking ID:</strong> <?php echo esc_html( $tracking_id ); ?>
+    </div>
     <div class="data-row">
         <strong>From:</strong> <?php echo esc_html( $post->post_title ); ?>
     </div>

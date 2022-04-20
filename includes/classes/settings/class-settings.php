@@ -37,6 +37,7 @@ class Settings
 		$wysiwyg_fields = array(
 			'before_content',
 			'before_submit',
+			'email_content',
 		);
 
 		if ( isset( $input ) ) {
