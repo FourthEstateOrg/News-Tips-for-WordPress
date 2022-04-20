@@ -4,7 +4,6 @@ namespace News_Tip\Widgets;
 
 use News_Tip\Emails\Admin_Notification;
 use News_Tip\Field_Validator;
-use News_Tip\Notification;
 use News_Tip\Template_Loader;
 
 class Form
