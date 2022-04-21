@@ -86,7 +86,7 @@ class Form
         $tracking_id = wp_generate_password( 12, false, false );
         update_post_meta( $post_id, 'tracking_id', sanitize_text_field( $tracking_id ) );
 
-        if ( isset( $_FILES["file_upload"] ) ) {
+        if ( ! empty( $_FILES["file_upload"]["name"] ) ) {
             // removing white space
             $fileName = preg_replace('/\s+/', '-', $_FILES["file_upload"]["name"]);
 
