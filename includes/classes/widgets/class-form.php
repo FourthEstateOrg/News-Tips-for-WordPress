@@ -86,17 +86,19 @@ class Form
         $tracking_id = wp_generate_password( 12, false, false );
         update_post_meta( $post_id, 'tracking_id', sanitize_text_field( $tracking_id ) );
 
-        // removing white space
-        $fileName = preg_replace('/\s+/', '-', $_FILES["file_upload"]["name"]);
+        if ( isset( $_FILES["file_upload"] ) ) {
+            // removing white space
+            $fileName = preg_replace('/\s+/', '-', $_FILES["file_upload"]["name"]);
 
-        // removing special character but keep . character because . seprate to extantion of file
-        $fileName = preg_replace('/[^A-Za-z0-9.\-]/', '', $fileName);
+            // removing special character but keep . character because . seprate to extantion of file
+            $fileName = preg_replace('/[^A-Za-z0-9.\-]/', '', $fileName);
 
-        // rename file using time
-	    $fileName = time().'-'.$fileName;
+            // rename file using time
+            $fileName = time().'-'.$fileName;
 
-        if ($upload = wp_upload_bits($fileName, null, file_get_contents($_FILES["file"]["tmp_name"])) ) {
-            update_post_meta( $post_id, 'file_upload', sanitize_url( $upload['url'] ) );
+            if ($upload = wp_upload_bits($fileName, null, file_get_contents($_FILES["file"]["tmp_name"])) ) {
+                update_post_meta( $post_id, 'file_upload', sanitize_url( $upload['url'] ) );
+            }
         }
         
         $admin_notification = new Admin_Notification( get_post( $post_id ) );
