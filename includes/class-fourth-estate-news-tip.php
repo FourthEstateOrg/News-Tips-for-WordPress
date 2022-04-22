@@ -129,6 +129,7 @@ class Fourth_Estate_News_Tip {
 		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/settings/fields/interface-field-markup.php';
 		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/settings/fields/abstract-field.php';
 		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/settings/fields/class-text-field.php';
+		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/settings/fields/class-heading-field.php';
 		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/settings/fields/class-wysiwyg-field.php';
 		require_once NEWS_TIP_PLUGIN_PATH . 'includes/classes/settings/fields/class-select-field.php';
 

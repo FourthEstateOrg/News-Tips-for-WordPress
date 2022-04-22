@@ -2,6 +2,7 @@
 
 namespace News_Tip\Admin;
 
+use News_Tip\Settings\Fields\Heading;
 use News_Tip\Settings\Fields\Text_Field;
 use News_Tip\Settings\Fields\Select_Field;
 use News_Tip\Settings\Fields\WYSIWYG_Field;
@@ -68,7 +69,7 @@ class Fourth_Estate_News_Tip_Admin {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles( $hook ) {
-		if ( 'settings_page_fourth-estate-news-tip' != $hook ) {
+		if ( 'news-tips_page_fourth-estate-news-tip-settings' != $hook ) {
 			return;
 		}
 
@@ -175,18 +176,28 @@ class Fourth_Estate_News_Tip_Admin {
 		);
 		$general_section->render();
 
-		$buttonSection = new Section( $setting_id, $this->plugin_name . '-settings-section-button', 'Button' );
-		$buttonSection->add(
+		$formSection = new Section( $setting_id, $this->plugin_name . '-settings-section-form', 'Form' );
+		$formSection->add(
 			new Text_Field( 
 				'label',
-				'Label',
+				'Button Label',
 				array(
 					'label_for' => 'label',
 					'description' => __( 'Label of the button', 'fourth-estate-news-tip' )
 				),
 			)
 		);
-		$buttonSection->add(
+		$formSection->add(
+			new Text_Field( 
+				'label',
+				'Button Label',
+				array(
+					'label_for' => 'label',
+					'description' => __( 'Label of the button', 'fourth-estate-news-tip' )
+				),
+			)
+		);
+		$formSection->add(
 			new Select_Field( 
 				'display_as',
 				'Display trigger as',
@@ -201,9 +212,6 @@ class Fourth_Estate_News_Tip_Admin {
 				),
 			)
 		);
-		$buttonSection->render();
-
-		$formSection = new Section( $setting_id, $this->plugin_name . '-settings-section-form', 'Form' );
 		$formSection->add(
 			new WYSIWYG_Field( 
 				'before_content',
@@ -259,8 +267,16 @@ class Fourth_Estate_News_Tip_Admin {
 		);
 		$email_section->render();
 
-		$recaptcha = new Section( $setting_id, $this->plugin_name . '-settings-section-recaptcha', 'reCaptcha v2' );
-		$recaptcha->add(
+		$integration = new Section( $setting_id, $this->plugin_name . '-settings-section-integration', 'Integration' );
+		$integration->add(
+			new Heading( 
+				'recaptcha-heading-1',
+				'reCaptcha v2',
+				array(
+				),
+			)
+		);
+		$integration->add(
 			new Text_Field( 
 				'site_key',
 				'Site Key',
@@ -269,7 +285,7 @@ class Fourth_Estate_News_Tip_Admin {
 				),	
 			)
 		);
-		$recaptcha->add(
+		$integration->add(
 			new Text_Field( 
 				'site_secret',
 				'Site Secret',
@@ -278,10 +294,16 @@ class Fourth_Estate_News_Tip_Admin {
 				),	
 			)
 		);
-		$recaptcha->render();
 
-		$recaptchav3 = new Section( $setting_id, $this->plugin_name . '-settings-section-recaptchav3', 'reCaptcha v3' );
-		$recaptchav3->add(
+		$integration->add(
+			new Heading( 
+				'recaptcha-heading-2',
+				'reCaptcha v3',
+				array(
+				),
+			)
+		);
+		$integration->add(
 			new Text_Field( 
 				'site_key_v3',
 				'Site Key',
@@ -290,7 +312,7 @@ class Fourth_Estate_News_Tip_Admin {
 				),	
 			)
 		);
-		$recaptchav3->add(
+		$integration->add(
 			new Text_Field( 
 				'site_secret_v3',
 				'Site Secret',
@@ -299,7 +321,7 @@ class Fourth_Estate_News_Tip_Admin {
 				),	
 			)
 		);
-		$recaptchav3->render();
+		$integration->render();
 
 	}
 

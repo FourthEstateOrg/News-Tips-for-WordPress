@@ -38,10 +38,8 @@ class Section
 		);
     }
 
-    public function section_callback() {
-
+    public function section_callback( $arg ) {
 		return;
-
 	}
     
 

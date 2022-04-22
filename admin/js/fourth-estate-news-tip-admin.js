@@ -29,4 +29,19 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
+	$( document ).ready( function() {
+		$('#pane-fourth-estate-news-tip-settings-section').show();
+		$('nav.nav-section ul li:first-of-type a').addClass('active');
+	} );
+
+	$( document ).on( 'click', 'a.setting-pane-trigger', function( e ) {
+		var target = $( this ).data( 'target' );
+		e.preventDefault();
+		$( '.section-pane' ).hide();
+		$( 'a.setting-pane-trigger' ).removeClass( 'active' ); 
+
+		$( target ).show();
+		$( this ).addClass( 'active' )
+	} );
+
 })( jQuery );

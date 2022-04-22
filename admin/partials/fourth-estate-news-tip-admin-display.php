@@ -14,13 +14,27 @@
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
-
-<div id="wrap">
-	<form method="post" action="options.php">
-		<?php
-			settings_fields( 'fourth-estate-news-tip-settings' );
-			do_settings_sections( 'fourth-estate-news-tip-settings' );
-			submit_button();
-		?>
-	</form>
+<div class="news-tip-settings">
+	<header>
+		<div class="logo-section">
+			<div class="logo">
+				Fourth Estate News Tip
+			</div>
+		</div>
+		<nav class="nav-section">
+			<?php settings_section_nav(); ?>
+		</nav>
+	</header>
+	<div id="wrap">
+		<form method="post" action="options.php">
+			<?php
+				settings_fields( 'fourth-estate-news-tip-settings' );
+				
+				settings_section_panes();
+				// var_dump( (array) $wp_settings_sections[ 'fourth-estate-news-tip-settings' ] ); exit;
+				// do_settings_sections( 'fourth-estate-news-tip-settings' );
+				submit_button();
+			?>
+		</form>
+	</div>
 </div>
