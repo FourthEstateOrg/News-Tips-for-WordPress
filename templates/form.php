@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Don't allow direct access
 
 ?>
 
-<form action="" id="news-tip-form">
+<form action="?" id="news-tip-form">
     <div class="nt-form-group">
         <label for="message" class="nt-label"><?php _e( 'Message', 'fourth-estate-news-tip' ) ?></label>
         <textarea name="message" id="message" cols="30" rows="10" class="nt-field" placeholder="What would you like to tell us?"></textarea>
@@ -36,6 +36,8 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Don't allow direct access
         </div>
     <?php endif; ?>
 
+    <?php do_action( 'before_news_tip_submit' ); ?>
+
     <input type="hidden" name="action" value="send_news_tip" />
     <input type="hidden" name="nonce" value="<?php echo wp_create_nonce('news-tip') ?>" >
 
@@ -43,3 +45,5 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Don't allow direct access
         <button type="submit"><?php _e( 'Submit', 'fourth-estate-news-tip' ) ?></button>
     </div>
 </form>
+
+<?php do_action( 'after_news_tip_form' ); ?>

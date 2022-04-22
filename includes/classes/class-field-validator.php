@@ -26,6 +26,15 @@ class Field_Validator {
      */
     public $data = array();
 
+    public $captcha_verification_errors = array(
+        'missing-input-secret'      => 'The secret parameter is missing.',
+        'invalid-input-secret'      => 'The secret parameter is invalid or malformed.',
+        'missing-input-response'    => 'The response parameter is missing.',
+        'invalid-input-response'    => 'The request is invalid or malformed.',
+        'bad-request'               => 'The response parameter is invalid or malformed.',
+        'timeout-or-duplicate'      => 'The response is no longer valid: either is too old or has been used previously.',
+    );
+
     /**
      * Class constructor
      *
@@ -51,6 +60,9 @@ class Field_Validator {
             }
             if ( $rule['email'] ) {
                 $this->validateEmail( $field );
+            }
+            if ( $rule['captcha'] ) {
+                $this->validateReCaptcha( $field );
             }
         }
         return $this;
@@ -79,6 +91,20 @@ class Field_Validator {
     {
         if ( ! $this->errors[ $field ] && ! filter_var( $this->data[ $field ], FILTER_VALIDATE_EMAIL ) ) {
             $this->errors[ $field ] = ucfirst($field) . " is not valid.";
+        }
+    }
+
+    public function validateReCaptcha( $field )
+    {
+        if ( empty( $secretKey = get_news_tip_settings( 'site_secret_v3' ) )) {
+            $secretKey = get_news_tip_settings( 'site_secret' );
+        }
+        $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secretKey) .  '&response=' . urlencode( $this->data[ $field ] );
+        $response = file_get_contents($url);
+        $responseKeys = json_decode($response,true);
+
+        if ( ! $responseKeys['success'] ) {
+            $this->errors[ $field ] = $this->captcha_verification_errors[ $responseKeys['error-codes'][0] ];
         }
     }
 

@@ -32,6 +32,8 @@ class Form
         $this->loader->add_shortcode( 'news-tip-form', $this, 'news_tip_form' );
         $this->loader->add_action( 'wp_ajax_send_news_tip', $this, 'send_news_tip' );
 		$this->loader->add_action( 'wp_ajax_nopriv_send_news_tip', $this, 'send_news_tip' );
+		$this->loader->add_action( 'after_news_tip_form', $this, 'after_news_tip_form' );
+		$this->loader->add_action( 'before_news_tip_submit', $this, 'before_news_tip_submit' );
     }
 
     public function news_tip_form()
@@ -51,7 +53,7 @@ class Form
             die ( 'Busted!' );
         }
 
-        $validator = new Field_Validator( array(
+        $validate_fields = array(
             "message" => array(
                 "required" => true,
             ),
@@ -59,20 +61,31 @@ class Form
                 "required" => true,
                 "email"    => true,
             ),
-        ) );
+        );
+
+        if ( $this->is_captcha_available() ) {
+            $validate_fields['g-recaptcha-response'] = array(
+                'captcha' => true,
+            );
+        }
+
+        $validator = new Field_Validator( $validate_fields );
         $validator->validate( $_POST );
 
         if ( ! $validator->is_valid() ) {
             die( $validator->get_error_response() );
         }
 
+        
+
 		$full_name = sanitize_text_field( $_POST['full_name'] );
 		$message = sanitize_textarea_field( $_POST['message'] );
 		$name = isset( $full_name ) && $full_name != '' ? $full_name : 'Anonymous'; 
 		$post = array(
-			'post_type' => 'news-tips',
-			'post_title' => esc_html( $name ),
-			'post_content' => esc_html( $message ),
+			'post_type'     => 'news-tips',
+			'post_title'    => esc_html( $name ),
+			'post_content'  => esc_html( $message ),
+            'post_status'   => 'unread',
 		);
 		$post_id = wp_insert_post( $post );
 
@@ -111,4 +124,34 @@ class Form
             "tracking_id" => $tracking_id,
         ] ) );
 	}
+
+    public function after_news_tip_form()
+    {
+        if ( ! $this->is_captcha_v3() ) : ?>
+            <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+                async defer>
+            </script>
+        <?php else: ?>
+            <script src="https://www.google.com/recaptcha/api.js?render=<?php echo get_news_tip_settings( 'site_key_v3' ) ?>"></script>
+        <?php endif;
+    }
+
+    public function before_news_tip_submit()
+    {
+        ?>
+            <div class="nt-form-group">
+                <div id="news-tip-captcha"></div>
+            </div>
+        <?php
+    }
+
+    public function is_captcha_v3()
+    {
+        return ! empty( get_news_tip_settings( 'site_key_v3' ) );
+    }
+
+    public function is_captcha_available()
+    {
+        return ! empty( get_news_tip_settings( 'site_key_v3' ) ) || ! empty( get_news_tip_settings( 'site_key' ) );
+    }
 }

@@ -30,6 +30,7 @@ class News_Tip_Post_Type {
 		$this->loader->add_action( 'admin_init', $this, 'admin_init');
         $this->loader->add_filter( 'manage_news-tips_posts_columns', $this, 'add_columns' );
         $this->loader->add_filter( 'manage_news-tips_posts_custom_column', $this, 'modify_columns', 10, 2 );
+        add_filter( 'wp_setup_nav_menu_item', array( $this, 'add_count_to_menu' ) );
     }
 
 	public function admin_init()
@@ -44,6 +45,8 @@ class News_Tip_Post_Type {
             }
         }
 
+        add_action('admin_print_footer_scripts', array($this, 'add_unread_counter_script'));
+        
         if ($typenow == 'news-tips') {
             add_filter('display_post_states', '__return_false');
             add_action('edit_form_after_title', array($this, 'adminEditAfterTitle'), 100);
@@ -73,7 +76,7 @@ class News_Tip_Post_Type {
 		$labels = array(
 			'name'                  => _x( 'News Tips', 'Post type general name', 'fourth-estate-news-tip' ),
 			'singular_name'         => _x( 'News Tip', 'Post type singular name', 'fourth-estate-news-tip' ),
-			'menu_name'             => _x( 'News Tips', 'Admin Menu text', 'fourth-estate-news-tip' ),
+			'menu_name'             => __( 'News Tips', 'Admin Menu text', 'fourth-estate-news-tip' ),
 			'name_admin_bar'        => _x( 'News Tip', 'Add New on Toolbar', 'fourth-estate-news-tip' ),
 			'add_new'               => __( 'Add New', 'fourth-estate-news-tip' ),
 			'add_new_item'          => __( 'Add New Tip', 'fourth-estate-news-tip' ),
@@ -110,6 +113,26 @@ class News_Tip_Post_Type {
 		);
 	 
 		register_post_type( 'news-tips', $args );
+
+        register_post_status( 'unread', array(
+            'label'                     => _x( 'Unread', 'post' ),
+            'public'                    => true,
+            'exclude_from_search'       => false,
+            'show_in_admin_all_list'    => true,
+            'show_in_admin_status_list' => true,
+            'label_count'               => _n_noop( 'Unread <span class="count">(%s)</span>', 'Unread <span class="count">(%s)</span>' ),
+            'post_type'                 => array( 'news-tips' ),
+        ) );
+
+        register_post_status( 'read', array(
+            'label'                     => _x( 'Read', 'post' ),
+            'public'                    => true,
+            'exclude_from_search'       => false,
+            'show_in_admin_all_list'    => true,
+            'show_in_admin_status_list' => true,
+            'label_count'               => _n_noop( 'Read <span class="count">(%s)</span>', 'Read <span class="count">(%s)</span>' ),
+            'post_type'                 => array( 'news-tips' ),
+        ) );
 	}
 
 	public function add_columns( $columns )
@@ -159,8 +182,10 @@ class News_Tip_Post_Type {
     * @return array
     */
     public function adminViewsEdit($views) {
+        $trash = $views['trash'];
         unset($views['publish']);
         unset($views['draft']);
+        unset($views['trash']);
 
         return $views;
     }
@@ -213,7 +238,7 @@ class News_Tip_Post_Type {
     /**
     * drop all the metaboxes and output what we want to show
     */
-    public function adminEditAfterTitle($post) {
+    public function adminEditAfterTitle( \WP_Post $post ) {
         global $wp_meta_boxes;
 
         // remove all meta boxes
@@ -223,8 +248,9 @@ class News_Tip_Post_Type {
             'normal' => array(),
         ));
 
+        $this->mark_as_read( $post->ID );
+
         // show my admin form
-        // require LOG_EMAILS_PLUGIN_ROOT . 'views/log-detail.php';
 		echo Template_Loader::get_template( 'admin/submission.php', array( "post" => $post ) ); 
     }
 
@@ -243,5 +269,32 @@ class News_Tip_Post_Type {
         </script>
 
         <?php
+    }
+
+    public function add_unread_counter_script() {
+        global $wpdb;
+
+        $count = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type='news-tips' AND post_status='unread'" );
+        if ( $count > 0 ) :
+        ?>
+            <script>
+                jQuery('.menu-icon-news-tips').find('.wp-menu-name').append(' <span class="update-plugins"><?php echo $count ?></span>');
+            </script>
+        <?php
+        endif;
+    }
+
+    public function mark_as_read( $post_id )
+    {
+        wp_update_post( array(
+            "ID"    => $post_id,
+            "post_status"   => "read",
+        ) );
+    }
+
+    public function add_count_to_menu( $item )
+    {
+        $item->title = $item->title . '(wata)';
+        return $item;
     }
 }

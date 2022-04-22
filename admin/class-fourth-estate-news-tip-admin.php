@@ -259,6 +259,48 @@ class Fourth_Estate_News_Tip_Admin {
 		);
 		$email_section->render();
 
+		$recaptcha = new Section( $setting_id, $this->plugin_name . '-settings-section-recaptcha', 'reCaptcha v2' );
+		$recaptcha->add(
+			new Text_Field( 
+				'site_key',
+				'Site Key',
+				array(
+					'label_for' => 'site_key',
+				),	
+			)
+		);
+		$recaptcha->add(
+			new Text_Field( 
+				'site_secret',
+				'Site Secret',
+				array(
+					'label_for' => 'site_secret',
+				),	
+			)
+		);
+		$recaptcha->render();
+
+		$recaptchav3 = new Section( $setting_id, $this->plugin_name . '-settings-section-recaptchav3', 'reCaptcha v3' );
+		$recaptchav3->add(
+			new Text_Field( 
+				'site_key_v3',
+				'Site Key',
+				array(
+					'label_for' => 'site_key_v3',
+				),	
+			)
+		);
+		$recaptchav3->add(
+			new Text_Field( 
+				'site_secret_v3',
+				'Site Secret',
+				array(
+					'label_for' => 'site_secret_v3',
+				),	
+			)
+		);
+		$recaptchav3->render();
+
 	}
 
 	/**

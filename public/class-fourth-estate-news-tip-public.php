@@ -99,10 +99,15 @@ class Fourth_Estate_News_Tip_Public {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/fourth-estate-news-tip-public.js', array( 'jquery' ), $this->version, false );
+		$options = get_option( 'fourth-estate-news-tip-settings' );
+
+		$is_captcha_v3 = ! empty( $options['site_key_v3'] );
 
 		$object = array(
 			"admin_ajax" => admin_url('admin-ajax.php'),
-			'nonce' 	 => wp_create_nonce('news-tip')
+			'nonce' 	 => wp_create_nonce('news-tip'),
+			'site_key'   => $is_captcha_v3 ? $options['site_key_v3'] : $options['site_key'],
+			'is_v3'		 => $is_captcha_v3,
 		);
 		wp_localize_script( $this->plugin_name, 'newstip', $object );
 	}

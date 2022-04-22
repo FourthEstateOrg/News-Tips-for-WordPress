@@ -29,6 +29,13 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
+	window.onloadCallback = function() {
+		window.news_tip_captcha = grecaptcha.render('news-tip-captcha', {
+			'sitekey' : newstip.site_key,
+		});
+	};
+
+
 	 var submitButton = '.online-form-container button[type="submit"]';
 
 	$( document ).on( 'click', '.open-news-tip-modal', function(e) {
@@ -58,12 +65,26 @@
 		clearErrors();
 
 		var data = new FormData(this);
+
+		if ( newstip.is_v3 == "1" ) {
+			grecaptcha.ready(function() {
+				grecaptcha.execute(newstip.site_key, {action: 'submit'}).then(function(token) {
+					data.append('g-recaptcha-response', token)
+					sendForm( data );
+				});
+			});
+		} else {
+			sendForm( data );
+		}
+	});
+
+	function sendForm( data ) {
 		$.ajax({
 			url: newstip.admin_ajax,
 			type:"POST",
 			processData: false,
 			contentType: false,
-			data:  new FormData(this),
+			data:  data,
 			success: function(response) {
 				setTimeout(function() {
 					response = JSON.parse( response );
@@ -71,9 +92,14 @@
 						if ( response.errors ) {
 							console.log(response.errors)
 							for ( var error in response.errors ) {
-								var field = $("#" + error);
-								field.parent().addClass('has-error');
-								field.parent().append('<span class="error-message">' + response.errors[error] + '</span>')
+								if ( error == 'g-recaptcha-response' ) {
+									$('div#news-tip-captcha iframe').css('border', '1px solid red' );
+									$('div#news-tip-captcha').append('<span class="error-message">' + response.errors[error] + '</span>');
+								} else {
+									var field = $("#" + error);
+									field.parent().addClass('has-error');
+									field.parent().append('<span class="error-message">' + response.errors[error] + '</span>')
+								}
 							}
 						}
 					} else {
@@ -85,11 +111,13 @@
 				}, 2000);
 			}
 		});
-	});
+	}
 
 	function clearErrors() {
 		$('.nt-form-group.has-error .error-message').remove();
 		$('.nt-form-group.has-error').removeClass('has-error');
+		$('div#news-tip-captcha iframe').css('border', 'none' );
+		$('div#news-tip-captcha .error-message').remove();
 	}
 
 	function showFormLoadingState() {
@@ -101,5 +129,4 @@
 		$(submitButton).attr('disabled', false);
 		$(submitButton).removeClass('loading');
 	}
-
 })( jQuery );

@@ -93,10 +93,10 @@ ul.news-tip-tabs li.active a {
     border: 1px solid red;
 }
 .nt-form-group.has-error label.nt-label,
-.nt-form-group.has-error span.error-message {
+.nt-form-group span.error-message {
     color: red;
 }
-.nt-form-group.has-error span.error-message {
+.nt-form-group span.error-message {
     font-size: 14px;
 }
 
