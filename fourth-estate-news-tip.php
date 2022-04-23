@@ -16,7 +16,7 @@
  * Plugin Name:       Fourth Estate News Tip
  * Plugin URI:        https://www.fourthestate.org/
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
- * Version:           1.0.2
+ * Version:           1.0.3
  * Author:            Fourth Estate
  * Author URI:        https://www.fourthestate.org/
  * License:           GPL-2.0+

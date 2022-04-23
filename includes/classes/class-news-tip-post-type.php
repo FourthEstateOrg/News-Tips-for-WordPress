@@ -30,7 +30,6 @@ class News_Tip_Post_Type {
 		$this->loader->add_action( 'admin_init', $this, 'admin_init');
         $this->loader->add_filter( 'manage_news-tips_posts_columns', $this, 'add_columns' );
         $this->loader->add_filter( 'manage_news-tips_posts_custom_column', $this, 'modify_columns', 10, 2 );
-        add_filter( 'wp_setup_nav_menu_item', array( $this, 'add_count_to_menu' ) );
     }
 
 	public function admin_init()
@@ -290,11 +289,5 @@ class News_Tip_Post_Type {
             "ID"    => $post_id,
             "post_status"   => "read",
         ) );
-    }
-
-    public function add_count_to_menu( $item )
-    {
-        $item->title = $item->title . '(wata)';
-        return $item;
     }
 }
