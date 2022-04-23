@@ -109,7 +109,7 @@ class Form
             // rename file using time
             $fileName = time().'-'.$fileName;
 
-            if ($upload = wp_upload_bits($fileName, null, file_get_contents($_FILES["file"]["tmp_name"])) ) {
+            if ($upload = wp_upload_bits($fileName, null, file_get_contents($_FILES["file_upload"]["tmp_name"])) ) {
                 update_post_meta( $post_id, 'file_upload', sanitize_url( $upload['url'] ) );
             }
         }
