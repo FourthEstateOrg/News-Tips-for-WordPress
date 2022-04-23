@@ -10,6 +10,7 @@ $email = get_post_meta( $post->ID, 'email', true );
 $contact_number = get_post_meta( $post->ID, 'contact_number', true );
 $tracking_id = get_post_meta( $post->ID, 'tracking_id', true );
 $file_upload = get_post_meta( $post->ID, 'file_upload', true );
+$file_upload_name = get_post_meta( $post->ID, 'file_upload_name', true );
 
 ?>
 
@@ -32,7 +33,7 @@ $file_upload = get_post_meta( $post->ID, 'file_upload', true );
     <div class="data-row">
         <strong>Uploaded File:</strong><br />
         <a href="<?php echo $file_upload ; ?>" target="_blank">
-            <img src="<?php echo $file_upload ; ?>" />
+            <?php echo $file_upload_name ? $file_upload_name : $file_upload; ?>
         </a>
     </div>
 </div>

@@ -111,6 +111,7 @@ class Form
 
             if ($upload = wp_upload_bits($fileName, null, file_get_contents($_FILES["file_upload"]["tmp_name"])) ) {
                 update_post_meta( $post_id, 'file_upload', sanitize_url( $upload['url'] ) );
+                update_post_meta( $post_id, 'file_upload_name', sanitize_text_field( $fileName ) );
             }
         }
         
