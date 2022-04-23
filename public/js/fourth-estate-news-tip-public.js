@@ -103,7 +103,7 @@
 							}
 						}
 					} else {
-						$('div#online-form').append('<span class="news-tip-notice success">Tip Sent Successfully!<br />Please use the tracking number <strong>' + response.tracking_id + '</strong> when communicating with us about your news tip.</span>');
+						$('div#online-form').append('<span class="news-tip-notice success">Tip Sent Successfully! Please use the tracking number <strong>' + response.tracking_id + '</strong> when communicating with us about your news tip.</span>');
 						$('.online-form-container').hide();
 					}
 					
