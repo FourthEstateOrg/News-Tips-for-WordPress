@@ -50,6 +50,7 @@ ul.news-tip-tabs {
     padding-right: 40px;
     /* border-bottom: 1px solid #ccc; */
     position: relative;
+    margin-bottom: 40px;
 }
 ul.news-tip-tabs li {
     flex: 1;

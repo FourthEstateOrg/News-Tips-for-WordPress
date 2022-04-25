@@ -27,7 +27,6 @@ class Admin_Notification implements Email_Notification
 
     public function send()
     {
-        
         wp_mail( 
             $this->get_recipient(), 
             $this->get_subject(), 
@@ -61,7 +60,7 @@ class Admin_Notification implements Email_Notification
     public function get_message()
     {
         if ( ! empty( $email_content = $this->options['email_content'] ) ) {
-            return $this->replace_placeholders( $email_content );
+            return wpautop( $this->replace_placeholders( $email_content ) );
         }
 
         ob_start();
