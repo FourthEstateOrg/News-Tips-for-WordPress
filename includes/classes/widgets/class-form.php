@@ -34,15 +34,34 @@ class Form
 		$this->loader->add_action( 'wp_ajax_nopriv_send_news_tip', $this, 'send_news_tip' );
 		$this->loader->add_action( 'after_news_tip_form', $this, 'after_news_tip_form' );
 		$this->loader->add_action( 'before_news_tip_submit', $this, 'before_news_tip_submit' );
+
+        /**
+         * register new hook for the form modal to hook into
+         */
+        add_action( 'wp_footer', function() {
+            do_action('news_tip_footer');
+        });
     }
 
-    public function news_tip_form()
+    public function news_tip_form( $atts )
     {
         $options = get_option( 'fourth-estate-news-tip-settings' );
 
-		add_action( 'wp_footer', function() use ( $options ) {
-			echo Template_Loader::get_template( 'news-tip-modal.php', $options ); 
-		} );
+        $atts = shortcode_atts( array(
+            'label' => $options['label'],
+            'display_as' => $options['display_as'],
+        ), $atts );
+
+        $options = array_merge($options, $atts);
+
+        /**
+         * Hook the news tip modal once
+         */
+        if ( ! has_action( 'news_tip_footer' ) ) {
+            add_action( 'news_tip_footer', function() use ( $options ) {
+                echo Template_Loader::get_template( 'news-tip-modal.php', $options ); 
+            } );
+        }
 
 		return Template_Loader::get_template( 'trigger.php', $options ); 
     }
