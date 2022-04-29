@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       News Tips
  * Plugin URI:        https://www.fourthestate.org/
- * Description:       A secure tool that allows news services to easily solicit, accept and manage news tips submitted by your readers and users.
+ * Description:       A secure tool that allows news services to easily solicit, accept, and manage news tips on WordPress.
  * Version:           0.97
  * Author:            Fourth Estate
  * Author URI:        https://www.fourthestate.org/
