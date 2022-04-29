@@ -18,7 +18,7 @@
 	<header>
 		<div class="logo-section">
 			<div class="logo">
-				News Tip Settings and Configuration
+				News Tips Settings and Configuration
 			</div>
 		</div>
 		<nav class="nav-section">
