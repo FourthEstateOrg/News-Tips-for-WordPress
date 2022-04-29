@@ -18,7 +18,7 @@
 	<header>
 		<div class="logo-section">
 			<div class="logo">
-				Fourth Estate News Tip
+				News Tip Settings and Configuration
 			</div>
 		</div>
 		<nav class="nav-section">
