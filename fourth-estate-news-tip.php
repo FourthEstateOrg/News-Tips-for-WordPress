@@ -13,15 +13,15 @@
  * @package           Fourth_Estate_News_Tip
  *
  * @wordpress-plugin
- * Plugin Name:       Fourth Estate News Tip
+ * Plugin Name:       News Tips
  * Plugin URI:        https://www.fourthestate.org/
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       A secure tool that allows news services to easily solicit, accept and manage news tips submitted by your readers and users.
  * Version:           0.97
  * Author:            Fourth Estate
  * Author URI:        https://www.fourthestate.org/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       fourth-estate-news-tip
+ * Text Domain:       news-tips-plugin
  * Domain Path:       /languages
  */
 
