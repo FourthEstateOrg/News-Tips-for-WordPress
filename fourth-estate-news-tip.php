@@ -1,14 +1,15 @@
 <?php
 
 /**
+ *
  * @link              https://www.fourthestate.org/
  * @since             1.0.0
  * @package           Fourth_Estate_News_Tip
  *
  * @wordpress-plugin
  * Plugin Name:       News Tips
- * Plugin URI:        https://www.fourthestate.org/
- * Description:       A secure tool that allows news services to easily solicit, accept, and manage news tips on WordPress.
+ * Plugin URI:        https://github.com/FourthEstateOrg/news-tip-plugin/
+ * Description:       A secure tool that allows news services to easily solicit, accept, and manage news tips submitted by your readers and users.
  * Version:           0.97
  * Author:            Fourth Estate
  * Author URI:        https://www.fourthestate.org/
