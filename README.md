@@ -54,7 +54,7 @@ Installation
 
 #### NEWS TIPS SHORTCODES
 
-The News Tips Form is called using the following shortcodes. 
+The News Tips Form is called using the following shortcodes. These can be used anywhere on the WordPress website.
 
 **DEFAULT**
 
