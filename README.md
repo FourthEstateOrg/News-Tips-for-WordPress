@@ -1,6 +1,6 @@
 
 
-# NEWS TIPS WORDPRESS PLUGIN
+# NEWS TIPS FOR WORDPRESS PLUGIN
 
 **News Tips** is a secure tool that allows news services to easily solicit, accept and manage news tips submitted by your readers and users on any WordPress website.
 
