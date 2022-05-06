@@ -4,8 +4,8 @@ Donate link: http://fourthestate.org/
 Tags: news, journalism, news tips, news, press
 Requires at least: 4.7
 Tested up to: 5.9.2
-Stable tag: .97
-Version: .97
+Stable tag: 0.9.7
+Version: 0.9.7
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
