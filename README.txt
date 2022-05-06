@@ -16,9 +16,9 @@ News Tips is a secure tool that allows news services to easily solicit, accept a
 
 News Tips is a secure tool that allows news services to easily solicit, accept and manage news tips submitted by your readers and users.
 
-News tips may be submitted anonymously, or the news tip submitter may optionally include contact information or documenatary evidence, if that is their preference.
+News tips may be submitted anonymously, or the news tip submitter may optionally include contact information or documentary evidence, if that is their preference.
 
-After installation and activation of the plugin, you’ll find a News Tips section on the WordPress admin screen menu. All news tips submitted through the modal form are listed there and are searchable. With News Tips, you no longer need to worry about managin news tips due to user error or mail server issues or misconfiguration in mail setup.
+After installation and activation of the plugin, you’ll find a News Tips section on the WordPress admin screen menu. All news tips submitted through the modal form are listed there and are searchable. With News Tips, you no longer need to worry about managing news tips due to user error or mail server issues or misconfiguration in mail setup.
 
 [View the code on GitHub](https://github.com/FourthEstateOrg/news-tip-plugin/)
 
