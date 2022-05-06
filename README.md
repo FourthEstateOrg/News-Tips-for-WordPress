@@ -29,11 +29,6 @@ After installation and activation of the plugin, you’ll find a News Tips secti
 The News Tips plugin stores submission data collected via an online form, which may include the submitters' personal information, in the database on the server that hosts the website.
 
 
-
-### CREDITS
-
-Plugin created and maintained by the [Fourth Estate®](https://www.fourthestate.org/) as an official software project.
-
 Installation
 ------------
 
@@ -72,3 +67,7 @@ The News Tips Form is called using the following shortcodes. These can be used a
 ```
 [news-tip-form label="Send News Tip as link" display_as="link"]
 ```
+
+### CREDITS
+
+Plugin created and maintained by the [Fourth Estate®](https://www.fourthestate.org/) as an official software project.
