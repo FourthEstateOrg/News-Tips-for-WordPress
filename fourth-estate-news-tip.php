@@ -10,7 +10,7 @@
  * Plugin Name:       News Tips
  * Plugin URI:        https://github.com/FourthEstateOrg/news-tip-plugin/
  * Description:       A secure tool that allows news services to easily solicit, accept, and manage news tips submitted by your readers and users.
- * Version:           0.97
+ * Version:           0.9.7
  * Author:            Fourth Estate
  * Author URI:        https://www.fourthestate.org/
  * License:           GPL-2.0+
