@@ -45,7 +45,7 @@ class News_Tip_Post_Type {
         }
 
         add_action('admin_print_footer_scripts', array($this, 'add_unread_counter_script'));
-        
+
         if ($typenow == 'news-tips') {
             add_filter('display_post_states', '__return_false');
             add_action('edit_form_after_title', array($this, 'adminEditAfterTitle'), 100);
@@ -65,7 +65,7 @@ class News_Tip_Post_Type {
 	}
 
     /**
-	 * Registers a new post type called news-tip 
+	 * Registers a new post type called news-tip
 	 *
 	 * @since	1.0.1
 	 * @return 	void
@@ -77,7 +77,7 @@ class News_Tip_Post_Type {
 			'singular_name'         => _x( 'News Tip', 'Post type singular name', 'fourth-estate-news-tip' ),
 			'menu_name'             => __( 'News Tips', 'Admin Menu text', 'fourth-estate-news-tip' ),
 			'name_admin_bar'        => _x( 'News Tip', 'Add New on Toolbar', 'fourth-estate-news-tip' ),
-			'add_new'               => __( 'Add New', 'fourth-estate-news-tip' ),
+/*			'add_new'               => __( 'Add New', 'fourth-estate-news-tip' ), */
 			'add_new_item'          => __( 'Add New Tip', 'fourth-estate-news-tip' ),
 			'new_item'              => __( 'New Tip', 'fourth-estate-news-tip' ),
 			'edit_item'             => __( 'Edit Tip', 'fourth-estate-news-tip' ),
@@ -90,7 +90,7 @@ class News_Tip_Post_Type {
 			'archives'              => __( 'Tips archives', 'fourth-estate-news-tip' ),
 			'filter_items_list'     => __( 'Filter Tips', 'fourth-estate-news-tip' ),
 		);
-	 
+
 		$args = array(
 			'labels'              => $labels,
 			'exclude_from_search' => true,
@@ -110,7 +110,7 @@ class News_Tip_Post_Type {
 			'supports'           => array( 'nada' ),
 			'can_export' => false,
 		);
-	 
+
 		register_post_type( 'news-tips', $args );
 
         register_post_status( 'unread', array(
@@ -147,7 +147,7 @@ class News_Tip_Post_Type {
 
 	public function modify_columns( $column_id, $post_id )
 	{
-		switch( $column_id ) { 
+		switch( $column_id ) {
 			case 'email':
 			case 'contact_number':
 				echo get_post_meta( $post_id, $column_id, true );
@@ -250,7 +250,7 @@ class News_Tip_Post_Type {
         $this->mark_as_read( $post->ID );
 
         // show my admin form
-		echo Template_Loader::get_template( 'admin/submission.php', array( "post" => $post ) ); 
+		echo Template_Loader::get_template( 'admin/submission.php', array( "post" => $post ) );
     }
 
     /**
