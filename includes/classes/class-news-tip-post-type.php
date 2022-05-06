@@ -77,7 +77,6 @@ class News_Tip_Post_Type {
 			'singular_name'         => _x( 'News Tip', 'Post type singular name', 'fourth-estate-news-tip' ),
 			'menu_name'             => __( 'News Tips', 'Admin Menu text', 'fourth-estate-news-tip' ),
 			'name_admin_bar'        => _x( 'News Tip', 'Add New on Toolbar', 'fourth-estate-news-tip' ),
-/*			'add_new'               => __( 'Add New', 'fourth-estate-news-tip' ), */
 			'add_new_item'          => __( 'Add New Tip', 'fourth-estate-news-tip' ),
 			'new_item'              => __( 'New Tip', 'fourth-estate-news-tip' ),
 			'edit_item'             => __( 'Edit Tip', 'fourth-estate-news-tip' ),
